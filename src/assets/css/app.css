@@ -1,0 +1,48 @@
+body {
+  font-family: Open Sans; }
+
+.App .filter-wrapper {
+  flex: 1;
+  padding: 0 15px; }
+  .App .filter-wrapper .input-text {
+    width: 100%; }
+
+.App .photos-wrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: 0;
+  flex: 1; }
+  .App .photos-wrapper .photo-item {
+    width: 33.33333%;
+    flex-direction: column; }
+    .App .photos-wrapper .photo-item img {
+      width: 100%; }
+
+.App .orderby-wrapper {
+  border: 1px solid rgba(0, 0, 0, 0.23);
+  padding: 10px 15px;
+  border-radius: 4px;
+  margin: 30px 15px 30px;
+  position: relative;
+  flex: 1; }
+  .App .orderby-wrapper .group-label {
+    position: absolute;
+    top: -10px;
+    background-color: white;
+    padding: 0 10px;
+    font-family: Open Sans;
+    font-size: 14px;
+    font-weight: 500; }
+  .App .orderby-wrapper .input-text {
+    width: 100%; }
+  .App .orderby-wrapper .input-radio-group {
+    flex-direction: row;
+    justify-content: space-between; }
+
+.loading-gif {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  margin-top: 15vh; }

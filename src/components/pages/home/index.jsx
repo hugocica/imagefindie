@@ -10,6 +10,10 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import LoadingRequisition from '../../loading';
+import Footer from '../../footer';
+import NavigateBefore from '@material-ui/icons/NavigateBefore';
+import NavigateNext from '@material-ui/icons/NavigateNext';
+import Button from '@material-ui/core/Button';
 
 class HomePage extends Component {
     constructor(props) {
@@ -44,9 +48,9 @@ class HomePage extends Component {
     }
 
     renderList = () => {
-        const { photos, searchReturn, fetchingPhotos } = this.props;
+        const { searchReturn, fetchingPhotos, fetchingSearch } = this.props;
 
-        if ( fetchingPhotos ) {
+        if ( fetchingPhotos || fetchingSearch ) {
             return <LoadingRequisition />
         }
 
@@ -56,18 +60,24 @@ class HomePage extends Component {
 
         const imagesLoadedOptions = { background: '.photo-item' }
 
-        let photosToRender = photos;
+        let items;
 
-        if ( typeof searchReturn.lenght !== typeof undefined ) {
-            photosToRender = searchReturn.results;
-        }
+        if ( (this.state.photos).length === 0 ) {
 
-        let items = this.state.photos.map((item, key) => {
-            return <ListItem className="photo-item" key={`repo-${key}`}>
-                <img src={item.urls['regular']} alt={item.alt_description}/>
-                <div className="item-meta"></div>
+            items = <ListItem className="photo-item">
+                Nenhum item encontrado
             </ListItem>
-        });
+
+        } else {
+
+            items = this.state.photos.map((item, key) => {
+                return <ListItem className="photo-item" key={`repo-${key}`}>
+                    <img src={item.urls['regular']} alt={item.alt_description}/>
+                    <div className="item-meta"></div>
+                </ListItem>
+            });
+
+        }
 
         return (
             <Masonry
@@ -86,24 +96,38 @@ class HomePage extends Component {
     handleSearch = event => {
         const { query, page } = this.state;
 
-        if ( event.key === 'Enter' ) {
+        if ( event.key === 'Enter' || event.target.value === '' ) {
 
             this.props.requestSearch(event.target.value, page);
-            this.setState({ query: event.target.value });
+            this.setState({ query: event.target.value, page: 1 });
 
         }
     }
 
-    handlePagination = () => {
+    handlePagination = (_whereTo) => {
         const { query, page, orderby } = this.state;
 
-        if ( query === '' ) {
+        let _page = page;
 
-            this.props.requestAllPhotos(page, orderby);
+        if ( _whereTo === 'prev' ) {
+
+            _page--;
+            this.setState({ page: _page })
 
         } else {
 
-            this.props.requestSearch(query, page);
+            _page++;
+            this.setState({ page: _page })
+
+        }
+
+        if ( query === '' ) {
+
+            this.props.requestAllPhotos(_page, orderby);
+
+        } else {
+
+            this.props.requestSearch(query, _page);
 
         }
     }
@@ -115,7 +139,16 @@ class HomePage extends Component {
     }
 
     render() {
-        const { photos, searchReturn, fetchingPhotos } = this.props;
+        let searchItemsWrapper = '';
+        const { searchReturn } = this.props;
+
+        if ( this.state.query !== '' ) {
+            searchItemsWrapper = <p>Showing {this.state.page * (searchReturn.results).length} results of {searchReturn.total}</p>
+        } else {
+            searchItemsWrapper = '';
+        }
+
+        let _disabled = (this.state.page === 1) ? true : false;
 
         return(
             <div className="App">
@@ -150,12 +183,29 @@ class HomePage extends Component {
                               </RadioGroup>
                         </div>
                     </Row>
+                    <Row className="results-info">
+                        {searchItemsWrapper}
+                    </Row>
                     <Row>
 
                         {this.renderList()}
 
                     </Row>
+                    <Row>
+                        <div className="pagination-wrapper">
+                            <Button variant="contained" component="span" className="pagination-item" disabled={_disabled} onClick={ () => { this.handlePagination('prev') } }>
+                                <NavigateBefore />
+                                <p>Previous Page</p>
+                            </Button>
+                            <Button variant="contained" component="span" className="pagination-item" onClick={ () => { this.handlePagination('next') } }>
+                                <p>Next Page</p>
+                                <NavigateNext />
+                            </Button>
+                        </div>
+                    </Row>
                 </Container>
+
+                <Footer />
             </div>
         );
 
@@ -166,7 +216,8 @@ const mapStateProps = (state) => {
     return {
         photos: state.photos.listPhotos,
         fetchingPhotos: state.photos.fetching,
-        searchReturn: state.search.listPhotos
+        searchReturn: state.search.listPhotos,
+        fetchingSearch: state.search.fetching
     }
 }
 

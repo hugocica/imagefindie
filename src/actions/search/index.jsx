@@ -10,7 +10,7 @@ export function requestSearch(_query, _page = 1) {
         dispatch(requestLoading());
 
         return axios
-            .get('search/photos/?client_id=08901ac80961bd394dd6241da993d12f2285ce0214c38945be18d948d705097d&query='+ _query +'&page='+ _page +'&per_page=30')
+            .get('search/photos/?client_id=08901ac80961bd394dd6241da993d12f2285ce0214c38945be18d948d705097d&query='+ _query +'&page='+ _page +'&per_page=10')
             .then(response => dispatch(fetchSearc(response.data)))
             .catch(error => dispatch(requestRejected(error.message)));
     }

@@ -7,6 +7,12 @@ body {
   .App .filter-wrapper .input-text {
     width: 100%; }
 
+.App .results-info {
+  padding: 0 15px; }
+  .App .results-info p {
+    border-bottom: 2px solid #424242;
+    width: 100%; }
+
 .App .photos-wrapper {
   display: flex;
   flex-direction: row;
@@ -16,6 +22,12 @@ body {
   .App .photos-wrapper .photo-item {
     width: 33.33333%;
     flex-direction: column; }
+    @media (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+      .App .photos-wrapper .photo-item {
+        width: 50%; } }
+    @media (min-width: 319px) and (max-width: 767px) {
+      .App .photos-wrapper .photo-item {
+        width: 100%; } }
     .App .photos-wrapper .photo-item img {
       width: 100%; }
 
@@ -39,6 +51,60 @@ body {
   .App .orderby-wrapper .input-radio-group {
     flex-direction: row;
     justify-content: space-between; }
+
+.App .pagination-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex: 1; }
+
+.App .pagination-item {
+  display: flex;
+  cursor: pointer; }
+  .App .pagination-item p {
+    margin-bottom: 0; }
+
+footer {
+  background-color: #424242;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 20px 15px;
+  margin-top: 60px;
+  color: white;
+  height: 90px; }
+  footer .dev-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center; }
+    footer .dev-container p {
+      margin-bottom: 0;
+      margin-right: 10px;
+      color: white; }
+    footer .dev-container .dev-box {
+      display: flex;
+      align-items: center;
+      border: 2px solid #424242;
+      background-color: white;
+      padding: 5px 20px;
+      margin-left: 4px;
+      font-size: 22px;
+      color: #424242;
+      transition: all 0.8s ease-in-out; }
+      footer .dev-container .dev-box:hover, footer .dev-container .dev-box:focus, footer .dev-container .dev-box:active {
+        text-decoration: none;
+        background-color: white;
+        color: #7F48FF; }
+      footer .dev-container .dev-box .fa-github {
+        transition: transform 0.8s ease-in-out;
+        font-size: 36px;
+        margin-right: 8px; }
+      footer .dev-container .dev-box span {
+        display: inline-block; }
+      footer .dev-container .dev-box:hover a {
+        color: #fff; }
+      footer .dev-container .dev-box:hover .fa-github {
+        transform: rotateY(360deg); }
 
 .loading-gif {
   display: flex;

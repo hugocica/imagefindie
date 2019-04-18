@@ -10,7 +10,7 @@ export function requestAllPhotos(_page = 1, _order_by = 'latest') {
         dispatch(requestLoading());
 
         return axios
-            .get('photos/?client_id=08901ac80961bd394dd6241da993d12f2285ce0214c38945be18d948d705097d&per_page=30&page='+ _page + '&order_by='+ _order_by)
+            .get('photos/?client_id=08901ac80961bd394dd6241da993d12f2285ce0214c38945be18d948d705097d&per_page=10&page='+ _page + '&order_by='+ _order_by)
             .then(response => dispatch(fetchAllPhotos(response.data)))
             .catch(error => dispatch(requestRejected(error.message)));
     }
